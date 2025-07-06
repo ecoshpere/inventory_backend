@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
+from app.dto.supplier import SupplierResponse
+from app.dto.warehouse import WarehouseResponse
+from app.dto.product import ProductResponse
 
 class PurchaseOrderItemBase(BaseModel):
     product_id: str
@@ -21,6 +24,7 @@ class PurchaseOrderItemResponse(PurchaseOrderItemBase):
     id: str
     total_price: float
     received_quantity: float
+    product: ProductResponse
     
     class Config:
         from_attributes = True
@@ -47,6 +51,7 @@ class PurchaseOrderUpdate(BaseModel):
     status: Optional[str] = None
     notes: Optional[str] = None
     is_active: Optional[bool] = None
+    items: Optional[List[PurchaseOrderItemUpdate]] = None
 
 class PurchaseOrderResponse(PurchaseOrderBase):
     id: str
@@ -54,6 +59,8 @@ class PurchaseOrderResponse(PurchaseOrderBase):
     created_at: datetime
     updated_at: datetime
     items: List[PurchaseOrderItemResponse] = []
+    supplier: SupplierResponse
+    warehouse: WarehouseResponse
     
     class Config:
         from_attributes = True 

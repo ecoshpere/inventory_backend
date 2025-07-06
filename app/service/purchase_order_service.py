@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.dao.purchase_order import PurchaseOrderDAO
 from app.dto.purchase_order import PurchaseOrderCreate, PurchaseOrderUpdate, PurchaseOrderResponse
 from typing import List, Optional
@@ -21,13 +21,13 @@ class PurchaseOrderService:
         return PurchaseOrderResponse.from_orm(db_purchase_order)
 
     def get_purchase_order(self, purchase_order_id: str) -> Optional[PurchaseOrderResponse]:
-        db_purchase_order = self.dao.get_by_id(purchase_order_id)
+        db_purchase_order = self.dao.get_by_id_with_relationships(purchase_order_id)
         if db_purchase_order:
             return PurchaseOrderResponse.from_orm(db_purchase_order)
         return None
 
     def get_purchase_orders(self, skip: int = 0, limit: int = 100) -> List[PurchaseOrderResponse]:
-        db_purchase_orders = self.dao.get_all(skip=skip, limit=limit)
+        db_purchase_orders = self.dao.get_all_with_relationships(skip=skip, limit=limit)
         return [PurchaseOrderResponse.from_orm(po) for po in db_purchase_orders]
 
     def get_active_purchase_orders(self) -> List[PurchaseOrderResponse]:
