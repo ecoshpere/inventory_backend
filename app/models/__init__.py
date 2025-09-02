@@ -7,4 +7,6 @@ from .purchase_order import PurchaseOrder
 from .purchase_order_item import PurchaseOrderItem
 from .stock_receipt import StockReceipt
 from .stock_receipt_item import StockReceiptItem
-from .stock_movement import StockMovement 
+from .stock_movement import StockMovement
+from .department import Department
+from .staff import Staff 
