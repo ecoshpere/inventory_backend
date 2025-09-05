@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from app.router import inventory, warehouse, category, product, supplier, purchase_order, stock_receipt, stock_movement, department, staff
+from app.router import inventory, warehouse, category, product, supplier, purchase_order, stock_receipt, stock_movement, department, staff, service, customer
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.middleware import SlowAPIMiddleware
 # Import all models to ensure SQLAlchemy metadata is properly registered
-from app.models import Department, Staff
+from app.models import Department, Staff, Service, Customer
 
 app = FastAPI(
     title="Ecosphere Inventory API",
@@ -39,6 +39,8 @@ app.include_router(stock_receipt.router, prefix="/api", tags=["stock-receipt"])
 app.include_router(stock_movement.router, prefix="/api", tags=["stock-movement"])
 app.include_router(department.router, prefix="/api", tags=["department"])
 app.include_router(staff.router, prefix="/api", tags=["staff"])
+app.include_router(service.router, prefix="/api", tags=["service"])
+app.include_router(customer.router, prefix="/api")
 
 @app.get("/")
 def root():

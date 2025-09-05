@@ -9,4 +9,6 @@ from .stock_receipt import StockReceipt
 from .stock_receipt_item import StockReceiptItem
 from .stock_movement import StockMovement
 from .department import Department
-from .staff import Staff 
+from .staff import Staff
+from .service import Service
+from .customer import Customer 

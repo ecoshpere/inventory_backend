@@ -69,7 +69,7 @@ class StaffService:
             designation=db_staff.designation,
             date_employed=db_staff.date_employed,
             department_id=db_staff.department_id,
-            department_name=None,  # We'll add this back later
+            department_name=db_staff.department.name if db_staff.department else None,
             created_at=db_staff.created_at,
             updated_at=db_staff.updated_at
         )

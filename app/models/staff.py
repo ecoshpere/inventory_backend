@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, DateTime, func, ForeignKey
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 class Staff(Base):
@@ -21,3 +22,6 @@ class Staff(Base):
     department_id = Column(String, ForeignKey("departments.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    # Relationship to Department
+    department = relationship("Department", backref="staff")

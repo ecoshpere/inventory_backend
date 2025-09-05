@@ -1,8 +1,9 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import or_
 from typing import List, Optional
 import uuid
 from ..models.staff import Staff
+from ..models.department import Department
 from ..dto.staff import StaffCreate, StaffUpdate
 
 class StaffDAO:
@@ -33,10 +34,14 @@ class StaffDAO:
         return db_staff
 
     def get_by_id(self, staff_id: str) -> Optional[Staff]:
-        return self.db.query(Staff).filter(Staff.id == staff_id).first()
+        return self.db.query(Staff).options(
+            joinedload(Staff.department)
+        ).filter(Staff.id == staff_id).first()
 
     def get_all(self, skip: int = 0, limit: int = 100, search: Optional[str] = None) -> List[Staff]:
-        query = self.db.query(Staff)
+        query = self.db.query(Staff).options(
+            joinedload(Staff.department)
+        )
         
         if search:
             search_term = f"%{search}%"
@@ -75,7 +80,11 @@ class StaffDAO:
         return True
 
     def get_by_employee_number(self, employee_number: str) -> Optional[Staff]:
-        return self.db.query(Staff).filter(Staff.employee_number == employee_number).first()
+        return self.db.query(Staff).options(
+            joinedload(Staff.department)
+        ).filter(Staff.employee_number == employee_number).first()
 
     def get_by_email(self, email: str) -> Optional[Staff]:
-        return self.db.query(Staff).filter(Staff.email_address == email).first()
+        return self.db.query(Staff).options(
+            joinedload(Staff.department)
+        ).filter(Staff.email_address == email).first()
